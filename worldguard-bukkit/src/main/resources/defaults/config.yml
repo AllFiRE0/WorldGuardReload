@@ -1,0 +1,61 @@
+#
+# WorldGuard's configuration file
+#
+# About editing this file:
+# - DO NOT USE TABS. You MUST use spaces or Bukkit will complain. If
+#   you use an editor like Notepad++ (recommended for Windows users), you
+#   must configure it to "replace tabs with spaces." In Notepad++, this can
+#   be changed in Settings > Preferences > Language Menu.
+# - Don't get rid of the indents. They are indented so some entries are
+#   in categories (like "enforce-single-session" is in the "protection"
+#   category.
+# - If you want to check the format of this file before putting it
+#   into WorldGuard, paste it into http://yaml-online-parser.appspot.com/
+#   and see if it gives "ERROR:".
+# - Lines starting with # are commentsand so they are ignored.
+#
+# WARNING:
+# Remember to check the compatibility spreadsheet for WorldGuard to see
+# if any features are currently broken in your version of Bukkit.
+#
+
+# -- This should be automatically replaced by the plugin in-game --
+
+# Set the localization language code (available defaults: en, ru)
+language: en
+
+# Where to display only PROTECTION deny messages (e.g. "You can't break this block here").
+# Does NOT affect command output. Options: chat (default), actionbar, title.
+regions:
+  message-display: chat
+  # Visualize: command run as player on region enter when they have worldguard.visualize. Use %region% for region id.
+  Visualize: "/svis wg %region%"
+  # Cooldown in ticks before the Visualize command can run again (80 ticks = 4 seconds).
+  VisualizeCooldown: 80
+  # Play a sound when an action is denied in a region that has the deny-sound flag (player needs worldguard.sound).
+  deny-sound:
+    enabled: true
+    cooldown: 80
+    sound:
+      name: minecraft:entity.experience_orb.pickup
+      source: MASTER
+      volume: 0.1
+      pitch: 1.0
+
+# Commands for /rg info menu buttons (add/remove owner and member).
+# Placeholders: {world}, {region_name}, {player}. PlaceholderAPI %placeholders% supported when the plugin is present.
+# type: suggest = insert command in chat; type: run = execute as player.
+region-info:
+  commands:
+    add-owner:
+      type: suggest
+      command: "/rg addowner -w \"{world}\" {region_name} "
+    add-member:
+      type: suggest
+      command: "/rg addmember -w \"{world}\" {region_name} "
+    remove-owner:
+      type: suggest
+      command: "/rg removeowner -w \"{world}\" {region_name} "
+    remove-member:
+      type: suggest
+      command: "/rg removemember -w \"{world}\" {region_name} "

@@ -1,0 +1,58 @@
+/*
+ * WorldGuard, a suite of tools for Minecraft
+ * Copyright (C) sk89q <http://www.sk89q.com>
+ * Copyright (C) WorldGuard team and contributors
+ *
+ * This program is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
+ * for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package com.sk89q.worldguard.util.localization;
+
+import java.util.Collections;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+
+public final class Localization {
+
+    private static final Localization EMPTY = new Localization(Collections.emptyMap());
+
+    private final Map<String, String> messages;
+
+    public Localization(Map<String, String> messages) {
+        Objects.requireNonNull(messages, "messages");
+        this.messages = Collections.unmodifiableMap(Map.copyOf(messages));
+    }
+
+    public static Localization empty() {
+        return EMPTY;
+    }
+
+    public String get(String key) {
+        Objects.requireNonNull(key, "key");
+        String raw = messages.getOrDefault(key, key);
+        return MessageColors.replaceColors(raw);
+    }
+
+    public String format(String key, Object... arguments) {
+        String template = messages.getOrDefault(key, key);
+        if (arguments == null || arguments.length == 0) {
+            return MessageColors.replaceColors(template);
+        }
+        String formatted = String.format(Locale.ROOT, template, arguments);
+        return MessageColors.replaceColors(formatted);
+    }
+}
+
+
